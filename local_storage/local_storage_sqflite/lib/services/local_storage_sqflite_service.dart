@@ -3,6 +3,12 @@ import 'package:sqflite/sqflite.dart';
 
 // Singleton class, so that no other instance of the class can be created.
 class LocalStorageSqfliteService {
+  // Created literal variables as these would be referred multiple times.
+  static final _tasksTableName = "tasks";
+  static final _tasksIdColumnName = "id";
+  static final _tasksContentColumnName = "content";
+  static final _tasksStatusColumnName = "status";
+
   static final _instance = LocalStorageSqfliteService._internal();
 
   LocalStorageSqfliteService._internal();
@@ -23,5 +29,21 @@ class LocalStorageSqfliteService {
     // any tables within it. So even if we have opened it, we can't use it.
 
     //-> final database = await openDatabase(databaseFilePath);
+
+    final database = await openDatabase(
+      databaseFilePath,
+      // onCreate helps us define the logic that would be executed, when the db
+      // initially gets created.
+      onCreate: (db, version) {
+        // Execute an SQL query with no return value.
+        db.execute('''
+          CREATE TABLE $_tasksTableName (
+            $_tasksIdColumnName INTEGER PRIMARY KEY,
+            $_tasksContentColumnName TEXT NOT NULL,
+            $_tasksStatusColumnName INTEGER NOT NULL
+          )
+        ''');
+      },
+    );
   }
 }
