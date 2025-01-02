@@ -4,16 +4,23 @@ import 'package:sqflite/sqflite.dart';
 // Singleton class, so that no other instance of the class can be created.
 class LocalStorageSqfliteService {
   // Created literal variables as these would be referred multiple times.
-  static final _tasksTableName = "tasks";
-  static final _tasksIdColumnName = "id";
-  static final _tasksContentColumnName = "content";
-  static final _tasksStatusColumnName = "status";
+  final _tasksTableName = "tasks";
+  final _tasksIdColumnName = "id";
+  final _tasksContentColumnName = "content";
+  final _tasksStatusColumnName = "status";
 
-  static final _instance = LocalStorageSqfliteService._internal();
+  Database? _database;
+
+  static final instance = LocalStorageSqfliteService._internal();
 
   LocalStorageSqfliteService._internal();
 
-  static Future<void> getDatabasePath() async {
+  Future<Database> getDatabase() async {
+    _database ??= await getDatabasePath();
+    return _database!;
+  }
+
+  Future<Database> getDatabasePath() async {
     // First we will choose where our database is going to be stored.
     // So first we fetch the path of the database directory.
     final databaseDirectoryPath = await getDatabasesPath();
@@ -45,5 +52,6 @@ class LocalStorageSqfliteService {
         ''');
       },
     );
+    return database;
   }
 }
