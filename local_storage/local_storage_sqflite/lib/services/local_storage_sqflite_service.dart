@@ -39,6 +39,7 @@ class LocalStorageSqfliteService {
 
     final database = await openDatabase(
       databaseFilePath,
+      version: 1,
       // onCreate helps us define the logic that would be executed, when the db
       // initially gets created.
       onCreate: (db, version) {
