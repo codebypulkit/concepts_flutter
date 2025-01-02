@@ -55,4 +55,23 @@ class LocalStorageSqfliteService {
     );
     return database;
   }
+
+  // Operation : INSERT
+  Future<void> write({required String content}) async {
+    final db = await getDatabase();
+
+    // We use the insert method on the db instance, it accepts the table name
+    // and then a map where the key in the map corresponds to the table col
+    // and the value is what is to be inserted in the cell of the specified col.
+    // Note: Since we are not specifying an id explicitly, even though we have an
+    // id column, that is a PRIMARY KEY field, SQLite would auto increment
+    // the id starting from 1 and so on. Because the id column is PRIMARY KEY
+    // it would do so, else it would have left it as NULL.
+    // Also, db.insert returns the id.
+    await db.insert(_tasksTableName, {
+      _tasksContentColumnName: content,
+      _tasksStatusColumnName:
+          0, // By default considering that task is not done.
+    });
+  }
 }
