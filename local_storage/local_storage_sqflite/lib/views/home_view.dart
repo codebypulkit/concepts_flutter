@@ -27,7 +27,16 @@ class _HomeViewState extends State<HomeView> {
           if (snap.connectionState == ConnectionState.done) {
             return ListView.builder(
               itemBuilder: (bCtx, i) {
-                return Text(snap.data![i].toString());
+                return ListTile(
+                  title: Text(snap.data![i].toString()),
+                  trailing: IconButton(
+                    onPressed: () {
+                      _localStorageSqfliteService.update(i + 1);
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.menu),
+                  ),
+                );
               },
               itemCount: snap.data?.length,
             );
