@@ -74,4 +74,20 @@ class LocalStorageSqfliteService {
           0, // By default considering that task is not done.
     });
   }
+
+  // Operation : READ (query)
+  Future<List<Map<String, Object?>>> read() async {
+    final db = await getDatabase();
+
+    // The query method is used to read data from the table that has been passed
+    // in the method's argument.
+    // The query method returns a list, that contains all the records in key value maps
+    // column name is the key and the record is the value.
+    final data = await db.query(_tasksTableName);
+
+    // We can also pass conditions where we want to query specific data from the database.
+    await db.query(_tasksTableName, where: 'id = ?', whereArgs: [2]);
+
+    return data;
+  }
 }

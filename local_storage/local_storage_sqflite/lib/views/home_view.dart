@@ -21,6 +21,20 @@ class _HomeViewState extends State<HomeView> {
         onPressed: _addTask,
         child: Icon(Icons.add),
       ),
+      body: FutureBuilder(
+        future: _localStorageSqfliteService.read(),
+        builder: (bCtx, snap) {
+          if (snap.connectionState == ConnectionState.done) {
+            return ListView.builder(
+              itemBuilder: (bCtx, i) {
+                return Text(snap.data![i].toString());
+              },
+              itemCount: snap.data?.length,
+            );
+          }
+          return CircularProgressIndicator();
+        },
+      ),
     );
   }
 
