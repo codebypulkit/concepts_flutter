@@ -29,13 +29,17 @@ class _HomeViewState extends State<HomeView> {
               itemBuilder: (bCtx, i) {
                 return ListTile(
                   onLongPress: () {
-                    _localStorageSqfliteService.delete(i + 1);
+                    _localStorageSqfliteService.delete(
+                      snap.data![i]['id'] as int,
+                    );
                     setState(() {});
                   },
                   title: Text(snap.data![i].toString()),
                   trailing: IconButton(
                     onPressed: () {
-                      _localStorageSqfliteService.update(i + 1);
+                      _localStorageSqfliteService.update(
+                        snap.data![i]['id'] as int,
+                      );
                       setState(() {});
                     },
                     icon: Icon(Icons.menu),
