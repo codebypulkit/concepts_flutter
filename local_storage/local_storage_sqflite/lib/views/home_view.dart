@@ -28,6 +28,10 @@ class _HomeViewState extends State<HomeView> {
             return ListView.builder(
               itemBuilder: (bCtx, i) {
                 return ListTile(
+                  onLongPress: () {
+                    _localStorageSqfliteService.delete(i + 1);
+                    setState(() {});
+                  },
                   title: Text(snap.data![i].toString()),
                   trailing: IconButton(
                     onPressed: () {

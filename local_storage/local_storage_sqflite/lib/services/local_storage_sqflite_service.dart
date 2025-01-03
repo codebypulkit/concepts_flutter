@@ -112,4 +112,18 @@ class LocalStorageSqfliteService {
       whereArgs: [id],
     );
   }
+
+  // Operation : DELETE (delete)
+  Future<void> delete(int id) async {
+    final db = await getDatabase();
+
+    // By default the delete method would run for all the records in the table
+    // passed to it.
+    // await db.delete(_tasksTableName);
+
+    // Since we do not want to delete al the records we pass the where argument.
+    // The statement below would deletes the record whose id is the id passed from
+    // outside.
+    await db.delete(_tasksTableName, where: 'id = ?', whereArgs: [id]);
+  }
 }
