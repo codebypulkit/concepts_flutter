@@ -90,4 +90,40 @@ class LocalStorageSqfliteService {
 
     return data;
   }
+
+  // Operation : UPDATE (update)
+  Future<void> update(int id) async {
+    final db = await getDatabase();
+
+    // By default the update method would run for all the records in the table
+    // passed to it.
+    // It takes a Map<String, Object?> as the second positional argument, which
+    // key specifies the column of the record and the value is the new value that
+    // would be put in place.
+    // await db.update(_tasksTableName, {"content": "Hello World!"});
+
+    // Since we do not want to update all the records we pass the where argument.
+    // The statement below would update the content value of the record whose id is
+    // the id passed from outside.
+    await db.update(
+      _tasksTableName,
+      {"content": "Hello World"},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  // Operation : DELETE (delete)
+  Future<void> delete(int id) async {
+    final db = await getDatabase();
+
+    // By default the delete method would run for all the records in the table
+    // passed to it.
+    // await db.delete(_tasksTableName);
+
+    // Since we do not want to delete al the records we pass the where argument.
+    // The statement below would deletes the record whose id is the id passed from
+    // outside.
+    await db.delete(_tasksTableName, where: 'id = ?', whereArgs: [id]);
+  }
 }
